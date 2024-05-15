@@ -8,13 +8,45 @@ Date: 2024-04-29
 
 # Task 0: Examine the setup of your own account
 
-> - Examine your account by using the command id and by looking into the files
+> - Examine your account by using the command `id` and by looking into the files
 >   `/etc/passwd` and `/etc/group` . What is its principal group? What other groups is
 >   the account a member of? What is the UID of the account and the GID of the
 >   principal group?
+
+**Output :** 
+
+```bash
+$ id
+uid=1000(anthony) gid=1000(anthony) groups=1000(anthony),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),114(lpadmin),125(libvirt),988(sambashare)
+```
+
+**Answers to questions:**
+
+1. **Principal group**: The principal group is `anthony`.
+2. **Other groups**: The account belongs to the groups `adm`, `cdrom`, `sudo`, `dip`, `plugdev`, `lpadmin`, `libvirt`, and `sambashare`.
+3. **UID of the account**: The UID of the account is `1000`.
+4. **GID of the principal group**: The GID of the principal group is `1000`.
+
 > - Which skeleton files have been copied?
 
+**Output :**
 
+```bash
+$ ls -a /etc/skel
+
+.  ..  .bash_logout  .bashrc  .face  .face.icon  .profile
+
+```
+
+**Answer to question :**
+
+The skeleton files that have been copied from `/etc/skel` are:
+
+- `.bash_logout`
+- `.bashrc`
+- `.face`
+- `.face.icon`
+- `.profile`
 
 # Task 1: Create user accounts
 
