@@ -56,20 +56,63 @@ The skeleton files that have been copied from `/etc/skel` are:
 >
 > 1. Create the groups `jedi` and `rebels` . Before creating them verify that they do not yet exist.
 
+1. Check that groups do not already exist
 
+**Input :**
+
+```bash
+$ getent group anthony
+anthony:x:1000:
+$ getent group jedi
+$ getent group rebels
+```
+
+To validate the `getent` command, we first test it with a group that we are certain exists.
+
+2. Groups creation
+
+**Input :**
+
+```bash
+$ sudo groupadd jedi
+[sudo] password for anthony:
+$ sudo groupe add rebels
+[sudo] password for anthony:
+```
+
+3. Check that the groups have been created correctly
+
+**Input :**
+
+```bash
+$ getent group jedi
+jedi:x:1001:
+$ getent group rebels
+rebels:x:1002:
+```
+
+This time, the `getent` command returns the group name and its GID.
 
 > 2. Create the following user accounts with default home directories and login shell (for example account luke should have home directory `/home/luke` and a `bash` shell).
 >    Note: For fear of overwriting something the `useradd` tool is very cautious about creating the home directory for an account.
 >
 >    - What option do you need to specify to have `useradd` create a home directory?
->    - What is the default login shell for users created with `useradd` ? What
->      command should we use to change the default login shell from `/bin/sh` to `/bin/bash` ?
+>
+>    - What is the default login shell for users created with `useradd` ? What command should we use to change the default login shell from `/bin/sh` to `/bin/bash` ?
 >
 >    Before creating them verify that they do not yet exist.
 >
 >    - Account `luke` , assigned to groups `jedi` (principal) and `rebels`.
 >    - Account `vader` , assigned to group `jedi` (principal).
 >    - Account `solo` , assigned to group `rebels` (principal).
+
+**Questions answers :**
+
+**What option do you need to specify to have `useradd` create a home directory?**
+
+The `-m` (or `--create-home`) option must be specified for useradd to create a home directory for the user.
+
+**What is the default login shell for users created with `useradd` ? What command should we use to change the default login shell from `/bin/sh` to `/bin/bash` ?**
 
 
 
@@ -88,8 +131,6 @@ The skeleton files that have been copied from `/etc/skel` are:
 
 
 # Task 2: Change groupe membership
-
-## 
 
 > 1. Create the Account `leia` Without Assigning It a Principal Group:After it was created, which principal group did it get assigned?
 
