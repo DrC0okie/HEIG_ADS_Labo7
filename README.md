@@ -114,21 +114,85 @@ The `-m` (or `--create-home`) option must be specified for useradd to create a h
 
 **What is the default login shell for users created with `useradd` ? What command should we use to change the default login shell from `/bin/sh` to `/bin/bash` ?**
 
+The default login shell for users created with `useradd` is `/bin/sh`. To change the default login shell from `/bin/sh` to `/bin/bash`, you can use the `-s` (or `--shell`) option with `useradd`.
 
+**Input :**
+
+1. Check that the accounts do not exist :
+
+```bash
+$ getent passwd luke
+$ getent passwd vader
+$ getent passwd solo
+```
+
+- `getent`: This command retrieves entries from administrative databases.
+- `passwd`: This option specifies that we want to check the password database (users).
+- `luke`, `vader`, `solo`: These are the names of the users we are checking. If these users exist, their information will be displayed. Otherwise, the command will return no results.
+
+2. Accounts creations :
+
+```bash
+$ sudo useradd -m -s /bin/bash -g jedi -G rebels luke
+$ sudo useradd -m -s /bin/bash -g jedi vader
+$ sudo useradd -m -s /bin/bash -g rebels solo
+```
+
+- `sudo`: Executes the command with the superuser privileges necessary for creating user accounts. 
+- `useradd`: The command to add a new user. 
+- `-m` or `--create-home`: Creates a home directory for the user (e.g., /home/luke). 
+- `-s /bin/bash` or `--shell /bin/bash`: Sets the default login shell for the user to `/bin/bash`. 
+- `-g jedi` or `--gid jedi`: Sets the user's primary group to 'jedi'. 
+- `-G rebels` or `--groups rebels`: Adds the user to additional groups, 'rebels'. 
+- `luke`, `vader` or ``rebels`: The name of the new user.
 
 > 3. Set a password for the account `luke`.
 
+**Input :**
 
+```bash
+$ sudo passwd luke
+Nouveau mot de passe : 
+Retapez le nouveau mot de passe : 
+passwd : mot de passe mis à jour avec succès
+
+```
+
+- `passwd`: The command to set or change a user's password.
 
 > 4. Test the account `luke` . Verify that the user can log in and create files. 
 >
 >    Verify that the user cannot access sensitive system information such as the file `/etc/shadow`.
 
+```bash
+$ su - luke
+Mot de passe : 
+$ touch /home/luke/testfile
+$ ls -l /home/luke/testfile
+-rw-r--r-- 1 luke jedi 0 mai   15 23:39 /home/luke/testfile
+$ cat /etc/shadow
+cat: /etc/shadow: Permission non accordée
 
+```
+
+- `su - luke`: Switches the user to luke and starts a login session with his environment.
+- `touch /home/luke/testfile`: Creates an empty file named `testfile` in luke's home directory
+- `ls -l /home/luke/testfile`: Displays the details of the `testfile`, thus verifying its creation.
+- `cat /etc/shadow`: Attempts to display the contents of the `/etc/shadow` file, which should fail for a non-privileged user.
 
 > 5. Use `su` to change your account to that of `vader`. Test if the user vader has access to the files in the home directory of user `luke` .
 
+**Input :**
 
+```bash
+$ sudo su - vader
+vader@anthoony-1-2:~$ ls -l /home/luke
+total 0
+-rw-r--r-- 1 luke jedi 0 mai   15 23:39 testfile
+
+```
+
+Vader has access to Luke's home folder.
 
 # Task 2: Change groupe membership
 
